@@ -11,8 +11,8 @@ def load_settings():
     return settings
 
 settings = load_settings()
-subscription = settings.get('subscription', 'a')
-region = settings.get('region', 'japanwest')
+subscription = settings.get('azure_sub','a')
+region = settings.get('azure_reg', 'japanwest')
 
 speech_config = speechsdk.SpeechConfig(subscription,region)
 audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)

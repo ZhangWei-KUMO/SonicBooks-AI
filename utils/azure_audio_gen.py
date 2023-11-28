@@ -15,9 +15,11 @@ def load_settings():
         settings = {}
     return settings
 settings = load_settings()
-subscription = settings.get('subscription', 'a')
-region = settings.get('region', 'japanwest')
 
+subscription = settings.get('azure_sub','a')
+region = settings.get('azure_reg', 'japanwest')
+print("Azure Subscription:",subscription)
+print("Azure Region:",region)
 speech_config = speechsdk.SpeechConfig(subscription,region)
 
 speech_sdk_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech")
@@ -26,7 +28,6 @@ dylib_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech/libMicrosoft
 speech_config.set_property_by_name("speechsdk.imports.path", speech_sdk_path)
 speech_config.set_property_by_name("speechsdk.imports.dylib_path", dylib_path)
 def azure_audio_gen(text,voice,title,chapter):
-    print(voice,"生成MP3文件中...",text)
     """performs speech synthesis to a mp3 file"""
     speech_config.speech_synthesis_voice_name=voice
     speech_config.set_speech_synthesis_output_format(speechsdk.SpeechSynthesisOutputFormat.Audio16Khz32KBitRateMonoMp3)
@@ -34,7 +35,6 @@ def azure_audio_gen(text,voice,title,chapter):
     file_name = os.path.join(desktop, str(title) + "-" + str(chapter) + ".mp3")
     file_config = speechsdk.audio.AudioOutputConfig(filename=file_name)
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=file_config)
-    print("Enter some text that you want to synthesize, Ctrl-Z to exit")
     speech_synthesis_result = speech_synthesizer.speak_text_async(text).get()
     if speech_synthesis_result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
         print("文本合成 [{}]".format(text))
