@@ -35,6 +35,12 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.audio_label)
         layout.addWidget(self.audio_input)
 
+        self.llm_label = QLabel("大语言模型")
+        self.llm_input = QComboBox(self)
+        self.llm_input.addItems(['gpt-3.5-turbo-0301', 'gpt-4','gpt-3.5-turbo-16k-0613','gpt-3.5-turbo','gpt-4-32k','gpt-4-32k-0613',])  
+        layout.addWidget(self.llm_label)
+        layout.addWidget(self.llm_input)
+
         self.save_button = QPushButton('确认', self)
         self.save_button.clicked.connect(self.save_settings)
         layout.addWidget(self.save_button)
