@@ -1,11 +1,19 @@
-import os
 import time
 import azure.cognitiveservices.speech as speechsdk
-from dotenv import load_dotenv
+import json
 
-load_dotenv() 
-subscription=os.getenv('SPEECH_KEY')
-region=os.getenv('SPEECH_REGION')
+def load_settings():
+    try:
+        with open('settings.json', 'r') as f:
+            settings = json.load(f)
+    except FileNotFoundError:
+        settings = {}
+    return settings
+
+settings = load_settings()
+subscription = settings.get('subscription', 'a')
+region = settings.get('region', 'japanwest')
+
 speech_config = speechsdk.SpeechConfig(subscription,region)
 audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
 
@@ -23,7 +31,7 @@ def debounce(seconds):
     return decorator
 
 @debounce(10)
-def azureTTS(text,voice):
+def azure_tts(text,voice):
     # The language of the voice that speaks.
     speech_config.speech_synthesis_voice_name=voice
     speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)

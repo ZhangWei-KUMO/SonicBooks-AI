@@ -1,18 +1,28 @@
 import os
 import azurelocal.cognitiveservices.speech as speechsdk
 from dotenv import load_dotenv
+import json
 
 # Get the current working directory
 cwd = os.getcwd()
 
+
+def load_settings():
+    try:
+        with open('settings.json', 'r') as f:
+            settings = json.load(f)
+    except FileNotFoundError:
+        settings = {}
+    return settings
+settings = load_settings()
+subscription = settings.get('subscription', 'a')
+region = settings.get('region', 'japanwest')
+
+speech_config = speechsdk.SpeechConfig(subscription,region)
+
 speech_sdk_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech")
 dylib_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech/libMicrosoft.CognitiveServices.Speech.core.dylib")
 
-load_dotenv() 
-subscription='ad9574a6101a4ac99f743a6e59aed'
-region='japanwest'
-
-speech_config = speechsdk.SpeechConfig(subscription,region)
 speech_config.set_property_by_name("speechsdk.imports.path", speech_sdk_path)
 speech_config.set_property_by_name("speechsdk.imports.dylib_path", dylib_path)
 def azure_audio_gen(text,voice,title,chapter):
