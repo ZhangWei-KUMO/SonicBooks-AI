@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QFileDialog,QLabel,QGridLayout,QSplitter,QTextEdit,QMenuBar,QMenu,QAction,QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QFileDialog,QLabel,QGridLayout,QSplitter,QTextEdit,QMenuBar,QMenu,QAction,QMessageBox,QMainWindow
 from utils.azure_audio_gen import azure_audio_gen
 from utils.azure_tts import azure_tts
 import epubs
@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 import threading
 import sys
 from components.settings import SettingsDialog
-class MyApp(QWidget):
+class MyApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -106,6 +106,8 @@ class MyApp(QWidget):
         file_name, _ = QFileDialog.getOpenFileName(self, '选择电子书', '',
                                            '电子书文件 (*.epub)', options=options)
         if file_name:  # 检查文件名是否为空
+            self.text=[]
+            self.text_area.clear()
             markdown = epubs.to_text(file_name)
             self.title = markdown[0][0].replace("#", "")
             author = markdown[0][1].replace("#", "")
@@ -121,6 +123,7 @@ class MyApp(QWidget):
             # 生成视频按钮和播放按钮可用
             self.generateAudio.setEnabled(True)
             self.play.setEnabled(True)
+          
 
         else:
             pass  # 用户选择取消后，不做任何操作
@@ -185,6 +188,7 @@ class MyApp(QWidget):
         azure_tts(self.text[self.current_page][:100],self.lang)
         self.play.setText("播放")
         self.generateAudio.setEnabled(True)
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MyApp()
