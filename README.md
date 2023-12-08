@@ -3,8 +3,7 @@
 这是一个基于Python的桌面端电子书音频生成应用。用户可以使用该工具生成自己的电子书音频和视频配音。
 测试API KEY
 ```bash
-open_ai_key: "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", 
-azure_sub: "ad9574a6101a4ac99f743a6e59aed669",
+azure_sub: "ad9574a6101a4ac99f743a6e59aed",
 azure_reg: "japanwest"
 ```
 
