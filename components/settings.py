@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QDialog, QLineEdit, QLabel, QVBoxLayout, QPushButton, QComboBox
 import json
+from PySide6.QtWidgets import QMessageBox
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
@@ -59,6 +60,7 @@ class SettingsDialog(QDialog):
                     self.language_input.setCurrentIndex(index)
         except Exception as e:
             print(f'Error loading settings: {e}')
+            QMessageBox.critical(None, "Error", f'Error loading settings: {e}')
 
     def save_settings(self):
         settings = {

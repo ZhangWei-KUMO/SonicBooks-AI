@@ -134,6 +134,12 @@ class MainWindow(QMainWindow):
                 self.generate_audio_button.setEnabled(True)
             else:
                 pass  # 用户选择取消后，不做任何操作
+
+    def show_version(self):
+                version_info = QMessageBox()
+                version_info.setWindowTitle("版本信息")
+                version_info.setText("苏州云帧数浪信息科技有限公司版权所有 @2023-2024 版本号 1.0.0")
+                version_info.exec_()
             
             # 生成音频函数
     def generateAudioFile(self):
@@ -147,6 +153,7 @@ class MainWindow(QMainWindow):
             azure_audio_gen(self.text[self.current_page],self.lang,self.title,self.current_page)
             self.generate_audio_button.setText("生成音频")
             self.generate_audio_button.setEnabled(True) 
+            
     
     def prev_page(self):
         if self.current_page > 0:

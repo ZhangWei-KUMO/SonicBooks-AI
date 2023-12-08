@@ -1,7 +1,8 @@
 import os
 import azurelocal.cognitiveservices.speech as speechsdk
-from dotenv import load_dotenv
 import json
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtCore import QObject, Signal, Slot
 
 # Get the current working directory
 cwd = os.getcwd()
@@ -26,6 +27,21 @@ dylib_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech/libMicrosoft
 
 speech_config.set_property_by_name("speechsdk.imports.path", speech_sdk_path)
 speech_config.set_property_by_name("speechsdk.imports.dylib_path", dylib_path)
+
+
+# 定义一个包含信号的类
+class Signaller(QObject):
+    error_signal = Signal(str)  # 定义一个传递字符串的信号
+
+# 创建槽函数，用于在主线程中显示消息框
+@Slot(str)
+def show_error_message(error_message):
+    QMessageBox.critical(None, "Error", error_message)
+
+
+signaller = Signaller()
+signaller.error_signal.connect(show_error_message)
+
 def azure_audio_gen(text,voice,title,chapter):
     """performs speech synthesis to a mp3 file"""
     speech_config.speech_synthesis_voice_name=voice
@@ -39,7 +55,8 @@ def azure_audio_gen(text,voice,title,chapter):
         print("文本合成 [{}]".format(text))
     elif speech_synthesis_result.reason == speechsdk.ResultReason.Canceled:
         cancellation_details = speech_synthesis_result.cancellation_details
-        print("文本合成: {}".format(cancellation_details.reason))
         if cancellation_details.reason == speechsdk.CancellationReason.Error:
             if cancellation_details.error_details:
                 print("错误信息: {}".format(cancellation_details.error_details))
+                signaller.error_signal.emit("请在设置中检查您的密钥和区域API KEY填写是否正确")
+
