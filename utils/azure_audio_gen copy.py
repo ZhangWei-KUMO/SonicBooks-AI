@@ -18,7 +18,8 @@ settings = load_settings()
 
 subscription = settings.get('azure_sub','a')
 region = settings.get('azure_reg', 'japanwest')
-
+print("Azure Subscription:",subscription)
+print("Azure Region:",region)
 speech_config = speechsdk.SpeechConfig(subscription,region)
 
 speech_sdk_path = os.path.join(cwd, "azurelocal/cognitiveservices/speech")

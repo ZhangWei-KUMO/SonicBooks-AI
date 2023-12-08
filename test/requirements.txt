@@ -1,2 +1,0 @@
-pyinstaller==5.4.1
-pyside6==6.3.1

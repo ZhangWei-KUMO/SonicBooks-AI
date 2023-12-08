@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QLineEdit, QLabel, QVBoxLayout, QPushButton, QComboBox
+from PySide6.QtWidgets import QDialog, QLineEdit, QLabel, QVBoxLayout, QPushButton, QComboBox
 import json
 
 class SettingsDialog(QDialog):
