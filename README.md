@@ -12,7 +12,7 @@
 ### MacOS 打包
 ```bash
 python build.py \
-    --app_name "Tubev" \
+    --app_name "声阅SonicBooks" \
     --version "0.0.1" \
     --spec_file "main.spec" \
     --entitlements "entitlements.plist" \

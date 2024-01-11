@@ -15,7 +15,7 @@ from utils.azure_audio_gen import azure_audio_gen
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('TubeV AI音频助手')
+        self.setWindowTitle('SonicBooks 声阅')
         self.setGeometry(300, 300, 800, 800)
         self.lang = 'zh-CN-YunzeNeural'
 
