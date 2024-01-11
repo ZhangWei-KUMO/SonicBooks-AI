@@ -1,16 +1,26 @@
 import os
 import azurelocal.cognitiveservices.speech as speechsdk
 import json
+import sys
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtCore import QObject, Signal, Slot
 
 # Get the current working directory
 cwd = os.getcwd()
 
+if getattr(sys, 'frozen', False):
+            # 如果程序被打包了，则使用这个路径
+            application_path = sys._MEIPASS
+else:
+         # 如果程序没有被打包，则使用当前文件的路径
+            application_path = os.path.dirname(os.path.abspath(__file__))
+
+settings_path = os.path.join(application_path, 'settings.json')
+
 
 def load_settings():
     try:
-        with open('settings.json', 'r') as f:
+        with open(settings_path, 'r') as f:
             settings = json.load(f)
     except FileNotFoundError:
         settings = {}

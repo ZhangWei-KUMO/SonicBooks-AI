@@ -1,6 +1,17 @@
 from PySide6.QtWidgets import QDialog, QLineEdit, QLabel, QVBoxLayout, QPushButton, QComboBox
 import json
 from PySide6.QtWidgets import QMessageBox
+import os
+import sys
+
+if getattr(sys, 'frozen', False):
+            # 如果程序被打包了，则使用这个路径
+            application_path = sys._MEIPASS
+else:
+         # 如果程序没有被打包，则使用当前文件的路径
+            application_path = os.path.dirname(os.path.abspath(__file__))
+
+settings_path = os.path.join(application_path, 'settings.json')
 
 class SettingsDialog(QDialog):
     def __init__(self, parent=None):
@@ -47,10 +58,11 @@ class SettingsDialog(QDialog):
         layout.addWidget(self.save_button)
 
         self.settings = {}  # 创建一个字典来存储设置
-
+        
+        
         # 读取 settings.json 文件并填入值
         try:
-            with open('settings.json', 'r') as f:
+            with open(settings_path, 'r') as f:
                 self.settings = json.load(f)
                 self.open_ai_input.setText(self.settings.get('open_ai_key', ''))
                 self.azure_sub_input.setText(self.settings.get('azure_sub', ''))
@@ -69,6 +81,6 @@ class SettingsDialog(QDialog):
             'azure_reg': self.azure_reg_input.text(),
             'language': self.language_input.currentText()  # 获取当前选中的语言
         }
-        with open('settings.json', 'w') as f:  # 将设置写入到 settings.json 文件中
+        with open(settings_path, 'w') as f:  # 将设置写入到 settings.json 文件中
             json.dump(settings, f)
         self.close()
