@@ -22,6 +22,5 @@ python build.py \
     --output_dir "dist"
 ```
 
-### Windows 桌面版
 
 

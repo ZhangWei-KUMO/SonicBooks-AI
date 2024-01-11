@@ -15,6 +15,7 @@ jobs:
         python-version: 3.10.11
     - name: 安装依赖
       run: |
+        brew install portaudio
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: 打包
